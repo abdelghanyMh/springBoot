@@ -1,7 +1,11 @@
 package com.example.demo.run;
 
+import com.example.demo.DemoApplication;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -11,42 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// according to the mentor the controller should only get request return response
+//that why he creates RunRepository to delegate the manging of the model to this class
+// repository data access pattern
 @Repository
 public class RunRepository {
-    private List<Run> runs;
+    public static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
+private final JdbcClient jdbcClient;
+
+// spring will automatically inject despondency to your constructor you don't need to add it your self
+// for example here spring wil  add the instance of jsbc client
+    public RunRepository(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
+    }
 
     public List<Run> findAll() {
-        return runs;
-    }
-
-    public Optional<Run> findById(Integer id) {
-        return runs.stream().filter(r -> r.id() == id).findFirst();
-    }
-
-    public void save(Run run) {
-        System.out.println(run);
-        runs.add(run);
-    }
-
-    public void deleteById(Integer id) {
-        runs.removeIf(r -> r.id() == id);
-    }
-
-    public void update(Run run,Integer id) {
-        Optional<Run> existingRun = findById(id);
-        if(existingRun.isPresent()){
-            runs.set(runs.indexOf(existingRun.get()),run);
-        }
-    }
-
-    public int count() {
-        return runs.size();
-    }
-
-    @PostConstruct
-    private void init() {
-        runs = new ArrayList<Run>();
-        runs.add(new Run(1, "Run 1", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 10, Location.INDOOR));
-        runs.add(new Run(2, "Run 2", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 20, Location.OUTDOOR));
+        return jdbcClient.sql("SELECT * FROM RUN").query(Run.class).list();
     }
 }
