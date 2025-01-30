@@ -7,6 +7,12 @@ GET http://localhost:8080/api/runs/2
 ### Find Run By ID Which doesnt exist
 GET http://localhost:8080/api/runs/90
 
+### Find Run By Location (OUTDOOR)
+GET http://localhost:8080/api/runs/location/OUTDOOR
+
+### Find Run By Location (INDOOR)
+GET http://localhost:8080/api/runs/location/INDOOR
+
 ### Create new Run
 POST http://localhost:8080/api/runs
 Content-Type: application/json
