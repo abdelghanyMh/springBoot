@@ -8,7 +8,7 @@ GET http://localhost:8080/api/runs/2
 GET http://localhost:8080/api/runs/90
 
 ### Find Run By Location (OUTDOOR)
-GET http://localhost:8080/api/runs/location/OUTDOOR
+GET http://localhost:8080/api/runs/location/
 
 ### Find Run By Location (INDOOR)
 GET http://localhost:8080/api/runs/location/INDOOR
