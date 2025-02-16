@@ -85,7 +85,7 @@ class RunControllerTest {
     @Test
     void shouldUpdateRun() throws Exception {
         var run = new Run(null, "test", LocalDateTime.now(), LocalDateTime.now(), 1, Location.INDOOR, null);
-        when(repository.create(run)).thenReturn(run);
+//        when(repository.create(run)).thenReturn(run);
         mvc.perform(put("/api/runs/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(run))
